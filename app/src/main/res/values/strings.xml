@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Expiry_date_manager</string>
+    <string name="title_activity_add_item_screen">AddItemScreen</string>
+    <string name="title_activity_item_add_class">ItemAdd_Class</string>
+    <string name="title_activity_category_class">category_class</string>
+</resources>
