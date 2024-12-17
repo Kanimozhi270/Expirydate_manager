@@ -16,7 +16,7 @@ class CategoryDatabaseCallback(
         }
     }
 
-    suspend fun populateDatabase(categoryDao: CategoryDao) {
+    suspend fun populateDatabase(categoryDao: ItemDao) {
         // Insert default categories
         val categories = listOf(
             Category(name = "Food"),
@@ -25,6 +25,6 @@ class CategoryDatabaseCallback(
             Category(name = "Subscriptions"),
             Category(name = "Medicine")
         )
-        categories.forEach { categoryDao.insert(it) }
+        categories.forEach { categoryDao.insertDefaultCategories() }
     }
 }

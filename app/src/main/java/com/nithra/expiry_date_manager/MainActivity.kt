@@ -63,6 +63,8 @@ import androidx.compose.ui.unit.sp
 import com.nithra.expiry_date_manager.ui.theme.Expiry_date_managerTheme
 
 class MainActivity : ComponentActivity() {
+    private lateinit var database: AppDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -70,6 +72,8 @@ class MainActivity : ComponentActivity() {
                 DateManagerScreen()
             }
         }
+        database = AppDatabase.getDatabase(this)
+
     }
 
     @OptIn(ExperimentalMaterial3Api::class)

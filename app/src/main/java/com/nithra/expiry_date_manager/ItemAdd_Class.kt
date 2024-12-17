@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,12 +30,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +43,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,9 +52,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import coil.compose.AsyncImage
@@ -390,40 +383,59 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
         // Add Item Button
         Button(
             onClick = {
-                // Use the ViewModel to insert item data into the database
-                viewModel.insertItem(
-                    id = 0,
-                    itemName = itemName,
-                    itemType = itemType,
-                    itemCategory = itemCategory,
-                    itemExpirydate = expiryDate,
-                    reminderBefore = reminderBefore,
-                    notifyTime = notifyTime,
-                    imagePath = imagePath,
-                    itemNotes = notes
-                )
+                // Check for each field separately and show specific Toast messages
+                when {
+                    itemName.isBlank() -> {
+                        Toast.makeText(context, "Please fill in the Item Name", Toast.LENGTH_SHORT).show()
+                    }
+                    itemType.isBlank() -> {
+                        Toast.makeText(context, "Please fill in the Item Type", Toast.LENGTH_SHORT).show()
+                    }
+                    itemCategory == "Select a Category" -> {
+                        Toast.makeText(context, "Please select a Category", Toast.LENGTH_SHORT).show()
+                    }
+                    expiryDate.isBlank() -> {
+                        Toast.makeText(context, "Please enter the Expiry Date", Toast.LENGTH_SHORT).show()
+                    }
+                    reminderBefore.isBlank() -> {
+                        Toast.makeText(context, "Please select a Reminder Before", Toast.LENGTH_SHORT).show()
+                    }
+                    notifyTime.isBlank() -> {
+                        Toast.makeText(context, "Please set a Notify Time", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        // Use the ViewModel to insert item data into the database
+                        viewModel.insertItem(
+                            id = 0,
+                            itemName = itemName,
+                            itemType = itemType,
+                            itemCategory = itemCategory,
+                            itemExpirydate = expiryDate,
+                            reminderBefore = reminderBefore,
+                            notifyTime = notifyTime,
+                            imagePath = imagePath,
+                            itemNotes = notes
+                        )
 
-                // Show a Toast message after insertion
-                Toast.makeText(context, "Item Added Successfully", Toast.LENGTH_SHORT).show()
+                        // Show a Toast message after successful insertion
+                        Toast.makeText(context, "Item Added Successfully", Toast.LENGTH_SHORT).show()
 
-                // Clear the form after adding the item
-                itemName = ""
-                itemType = "Expiry Item"
-                itemCategory = "Select a Category"
-                reminderBefore = "Same Day"
-                expiryDate = ""
-                notifyTime = ""
-                notes = ""
-                imagePath = ""
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF9C6EFF)),
-            shape = RoundedCornerShape(25.dp)
+                        // Clear the form after adding the item
+                        itemName = ""
+                        itemType = "Expiry Item"
+                        itemCategory = "Select a Category"
+                        reminderBefore = "Same Day"
+                        expiryDate = ""
+                        notifyTime = ""
+                        notes = ""
+                        imagePath = ""
+                    }
+                }
+            }
         ) {
-            Text(text = "+ Add Item", color = Color.White, fontWeight = FontWeight.Bold)
+            Text(text = "Add Item")
         }
+
     }
 }
 @Composable

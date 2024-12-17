@@ -46,7 +46,6 @@ import kotlinx.coroutines.launch
 class category_class : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             Expiry_date_managerTheme {
                 CategoriesScreen()

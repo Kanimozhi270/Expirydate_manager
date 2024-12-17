@@ -7,13 +7,13 @@ import androidx.room.PrimaryKey
 data class Item(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val itemName: String,
-    val itemType: String,  // "Expiry Item" or "Renew Item"
-    val itemCategory: String,
-    val ItemExpirydate: String,
-    val reminderBefore: String,
-    val notifyTime: String,
-    val ItemNotes: String,
-    val imagePath: String?  // Path to the image if available
+    var itemName: String,
+    var itemType: String,  // "Expiry Item" or "Renew Item"
+    var itemCategory: String,
+    var itemExpirydate: String,
+    var reminderBefore: String,
+    var notifyTime: String,
+    var ItemNotes: String,
+    var imagePath: String  // Path to the image if available
 )
 

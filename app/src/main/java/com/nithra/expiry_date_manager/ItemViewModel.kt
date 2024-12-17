@@ -12,7 +12,6 @@ import kotlinx.coroutines.withContext
 class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
     private val itemDao = AppDatabase.getDatabase(application).itemDao() // Assuming you have itemDao
-    private val categoryDao = AppDatabase.getDatabase(application).categoryDao()
 
     private val _recentItems = MutableLiveData<List<Item>>()
     val recentItems: LiveData<List<Item>> = _recentItems
@@ -25,18 +24,6 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     // Updated Item data class to match the parameters in insertItem
-
-    data class Item(
-        val id: Int,
-        val itemName: String,
-        val itemType: String,
-        val itemCategory: String,
-        val itemExpirydate: String,
-        val reminderBefore: String,
-        val notifyTime: String,
-        val imagePath: String,
-        val itemNotes: String
-    )
 
     fun insertItem(
         id: Int,
@@ -58,14 +45,14 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
             reminderBefore = reminderBefore,
             notifyTime = notifyTime,
             imagePath = imagePath,
-            itemNotes = itemNotes
+            ItemNotes = itemNotes
         )
 
         var isSuccess = false
 
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                itemDao.insert(newItem) // Uncomment and ensure this DAO method exists
+                itemDao.Iteminsert(newItem) // Uncomment and ensure this DAO method exists
                 isSuccess = true
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -78,7 +65,7 @@ class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun getAllCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            val categoriesList = categoryDao.getAllCategories()
+            val categoriesList = itemDao.getAllCategories()
             _categories.postValue(categoriesList)
         }
     }
