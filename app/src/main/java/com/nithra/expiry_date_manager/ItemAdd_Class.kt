@@ -145,7 +145,7 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
             OutlinedTextField(
                 value = itemName,
                 onValueChange = {
-                    if (it.length <= 20) {
+                    if (it.length <= 30) {
                         itemName = it
                     }
                 },
@@ -247,10 +247,10 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
             OutlinedTextField(
                 value = expiryDate,
                 onValueChange = { expiryDate = it },
-                label = null, // Label can be outside or on the field itself
-                placeholder = { Text(text = "Select date") }, // Placeholder for the field
+                label = null,
+                placeholder = { Text(text = "Select date") },
                 trailingIcon = {
-                    IconButton(onClick = { datePickerDialog.show() }) {
+                    IconButton(onClick = { datePickerDialog.show()}) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = "Select Date",
@@ -259,11 +259,7 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
                     }
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text), // If you want number input
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                .clickable { datePickerDialog.show() },
-                    readOnly = true
+                readOnly = true,
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
@@ -356,10 +352,11 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
                 .fillMaxWidth()
                 .height(150.dp)
                 .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
-                .background(Color(0xFFF5F5F5)),
+                .background(Color(0xFFF5F5F5))
+                .clickable { imageLauncher.launch("image/*") }, // Open gallery on click
             contentAlignment = Alignment.Center
         ) {
-            if (imagePath != null) {
+            if (imagePath.isNotEmpty()) {
                 AsyncImage(
                     model = imagePath,
                     contentDescription = "Selected Image",
@@ -377,6 +374,7 @@ fun CreateItemScreen(viewModel: ItemViewModel) {
                 }
             }
         }
+
 
         Spacer(modifier = Modifier.height(10.dp))
 
